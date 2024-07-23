@@ -55,6 +55,8 @@ Shoulda::Matchers.configure do |config|
   end
 end
 
+load "#{Rails.root}/db/schema.rb"
+
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_paths = [
