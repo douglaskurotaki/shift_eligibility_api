@@ -5,4 +5,10 @@ FactoryBot.define do
     name { Faker::Name.name }
     is_active { true }
   end
+
+  trait :with_requirements do
+    after(:create) do |facility|
+      create(:facility_requirement, facility:)
+    end
+  end
 end
