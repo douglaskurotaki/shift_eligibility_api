@@ -28,14 +28,14 @@ RSpec.describe ShiftRepository, type: :model do
   describe '.call' do
     context 'when facility is active' do
       it 'filters by profession if provided' do
-        result = ShiftRepository.call(facility:, start_date:, end_date:, profession:)
+        result = described_class.call(facility:, start_date:, end_date:, profession:)
 
         expect(result).to include(shift)
         expect(result).not_to include(claimed_shift, inactive_facility_shift)
       end
 
       it 'does not filter by profession if not provided' do
-        result = ShiftRepository.call(facility:, start_date:, end_date:)
+        result = described_class.call(facility:, start_date:, end_date:)
 
         expect(result).to include(shift)
         expect(result).not_to include(claimed_shift, inactive_facility_shift)
@@ -44,7 +44,7 @@ RSpec.describe ShiftRepository, type: :model do
 
     context 'when facility is inactive' do
       it 'does not return shifts' do
-        result = ShiftRepository.call(facility: inactive_facility, start_date:, end_date:)
+        result = described_class.call(facility: inactive_facility, start_date:, end_date:)
 
         expect(result).to be_empty
       end
@@ -52,13 +52,13 @@ RSpec.describe ShiftRepository, type: :model do
 
     context 'when an error occurs' do
       before do
-        allow(Shift).to receive(:includes).and_raise(StandardError, 'test error')
+        allow(Shift).to receive(:joins).and_raise(StandardError, 'test error')
       end
 
       it 'logs the error and raises it' do
         expect(Rails.logger).to receive(:error).with('[ShiftRepository] test error')
         expect do
-          ShiftRepository.call(facility:, start_date:, end_date:)
+          described_class.call(facility:, start_date:, end_date:)
         end.to raise_error(StandardError, 'test error')
       end
     end
@@ -71,7 +71,7 @@ RSpec.describe ShiftRepository, type: :model do
 
     it 'does not have an N+1 query' do
       expect do
-        ShiftRepository.new(facility:, start_date:, end_date:).call.map { |shift| shift.facility.name }
+        described_class.new(facility:, start_date:, end_date:).call.map { |shift| shift.facility.name }
       end.to perform_constant_number_of_queries.exactly(2)
     end
   end
