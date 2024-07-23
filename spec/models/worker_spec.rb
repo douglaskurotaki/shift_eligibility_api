@@ -15,6 +15,12 @@ RSpec.describe Worker, type: :model do
     it { should have_many(:shifts).dependent(:destroy) }
   end
 
+  describe 'enums' do
+    it 'defines profession enum with correct values' do
+      expect(Worker.professions).to include('CNA' => 'CNA', 'LVN' => 'LVN', 'RN' => 'RN')
+    end
+  end
+
   describe 'factory' do
     it 'has a valid factory' do
       expect(build(:worker)).to be_valid
