@@ -20,6 +20,8 @@ gem 'bootsnap', require: false
 gem 'rswag-api'
 # Swagger UI engine for API documentation
 gem 'rswag-ui'
+# Pagination for Rails
+gem 'kaminari'
 
 group :development, :test do
   # Maintains clean DB state for testing
