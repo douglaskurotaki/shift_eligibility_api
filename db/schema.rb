@@ -16,7 +16,7 @@ ActiveRecord::Schema[7.1].define(version: 0) do
 
   # Custom types defined in this database.
   # Note that some types may not work with other database engines. Be careful if changing database.
-  create_enum "Profession", ["CNA", "LVN", "RN"]
+  create_enum "profession", ["CNA", "LVN", "RN"]
 
   create_table "Document", id: :serial, force: :cascade do |t|
     t.text "name", null: false
@@ -41,7 +41,7 @@ ActiveRecord::Schema[7.1].define(version: 0) do
   create_table "Shift", id: :serial, force: :cascade do |t|
     t.datetime "start", precision: 3, null: false
     t.datetime "end", precision: 3, null: false
-    t.enum "profession", null: false, enum_type: ""Profession""
+    t.enum "profession", null: false, default: 'CNA', enum_type: "profession"
     t.boolean "is_deleted", default: false, null: false
     t.integer "facility_id", null: false
     t.integer "worker_id"
@@ -50,7 +50,7 @@ ActiveRecord::Schema[7.1].define(version: 0) do
   create_table "Worker", id: :serial, force: :cascade do |t|
     t.text "name", null: false
     t.boolean "is_active", default: false, null: false
-    t.enum "profession", null: false, enum_type: ""Profession""
+    t.enum "profession", null: false, default: 'CNA', enum_type: "profession"
   end
 
   create_table "_prisma_migrations", id: { type: :string, limit: 36 }, force: :cascade do |t|
