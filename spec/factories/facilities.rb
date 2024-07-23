@@ -11,4 +11,10 @@ FactoryBot.define do
       create(:facility_requirement, facility:)
     end
   end
+
+  trait :with_shifts do
+    after(:create) do |facility|
+      create(:shift, facility:)
+    end
+  end
 end
