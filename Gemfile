@@ -1,47 +1,45 @@
-source "https://rubygems.org"
+# frozen_string_literal: true
 
-ruby "3.3.1"
+source 'https://rubygems.org'
+
+ruby '3.3.1'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 7.1.3", ">= 7.1.3.4"
-
+gem 'rails', '~> 7.1.3', '>= 7.1.3.4'
 # Use postgresql as the database for Active Record
-gem "pg", "~> 1.1"
-
+gem 'pg', '~> 1.1'
 # Use the Puma web server [https://github.com/puma/puma]
-gem "puma", ">= 5.0"
-
+gem 'puma', '>= 5.0'
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
-# gem "jbuilder"
-
-# Use Redis adapter to run Action Cable in production
-# gem "redis", ">= 4.0.1"
-
-# Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
-# gem "kredis"
-
-# Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
-# gem "bcrypt", "~> 3.1.7"
-
+gem 'jbuilder'
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem "tzinfo-data", platforms: %i[ windows jruby ]
-
+gem 'tzinfo-data', platforms: %i[windows jruby]
 # Reduces boot times through caching; required in config/boot.rb
-gem "bootsnap", require: false
-
-# Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
-# gem "image_processing", "~> 1.2"
-
-# Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin Ajax possible
-# gem "rack-cors"
+gem 'bootsnap', require: false
+# Swagger generators for RSpec
+gem 'rswag-api'
+# Swagger UI engine for API documentation
+gem 'rswag-ui'
 
 group :development, :test do
-  # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
-  gem "debug", platforms: %i[ mri windows ]
+  # Maintains clean DB state for testing
+  gem 'database_cleaner-active_record'
+  # Debugging tool for Ruby
+  gem 'debug', platforms: %i[mri windows]
+  # Simplifies test object creation
+  gem 'factory_bot_rails'
+  # Generates fake data
+  gem 'faker'
+  # Combines pry with byebug for debugging
+  gem 'pry-byebug'
+  # Testing framework for Rails
+  gem 'rspec-rails'
+  # Swagger-based DSL for testing API operations
+  gem 'rswag-specs'
+  # Provides RSpec- and Minitest-compatible one-liners to test common Rails functionalities
+  gem 'shoulda-matchers'
+  # Code coverage analysis tool for Ruby
+  gem 'simplecov'
+  # JSON formatter for SimpleCov output
+  gem 'simplecov_json_formatter'
 end
-
-group :development do
-  # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
-  # gem "spring"
-end
-
