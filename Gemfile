@@ -44,4 +44,6 @@ group :development, :test do
   gem 'simplecov'
   # JSON formatter for SimpleCov output
   gem 'simplecov_json_formatter'
+
+  gem 'n_plus_one_control'
 end
