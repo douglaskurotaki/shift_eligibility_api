@@ -89,6 +89,37 @@ paths:
           description: unprocessable entity
         '404':
           description: facility not found
+  "/api/shifts/{shift_id}/assign_worker":
+    post:
+      summary: Assign worker to shift
+      tags:
+      - Shifts
+      parameters:
+      - name: shift_id
+        in: path
+        required: true
+        description: Shift ID
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: worker assigned to shift
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/shift"
+        '422':
+          description: unprocessable entity
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                worker_id:
+                  type: integer
+              required:
+              - worker_id
 servers:
 - url: https://{defaultHost}
   variables:

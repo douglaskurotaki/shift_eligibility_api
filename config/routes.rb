@@ -5,7 +5,9 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: { format: :json } do
     scope module: :v1, constraints: ApiConstraints.new(version: 1, default: true) do
-      resources :shifts, only: %i[index]
+      resources :shifts, only: %i[index] do
+        post :assign_worker
+      end
     end
   end
 end

@@ -3,6 +3,8 @@
 module Api
   module V1
     class ShiftsController < ApplicationController
+      before_action :set_shift, :set_worker, only: %i[assign_worker]
+
       def index
         response = ::ListShiftsEligibilityUseCase.call(params: builder_list)
         if response[:success?]
@@ -12,6 +14,28 @@ module Api
         end
       rescue ActiveRecord::RecordNotFound => e
         render json: { error: e.message }, status: :not_found
+      end
+
+      def assign_worker
+        response = AssignWorkerToShiftUseCase.call(shift: @shift, worker: @worker)
+        if response[:success?]
+          @shift = response[:data]
+          render :show, status: :ok
+        else
+          render json: { error: response[:error] }, status: :unprocessable_entity
+        end
+      rescue ActiveRecord::RecordNotFound => e
+        render json: { error: e.message }, status: :not_found
+      end
+
+      private
+
+      def set_shift
+        @shift = Shift.find(params[:shift_id])
+      end
+
+      def set_worker
+        @worker = Worker.find(shift_params[:worker_id])
       end
 
       def builder_list
@@ -26,7 +50,7 @@ module Api
       end
 
       def shift_params
-        params.require(:shift).permit(:worker_id, :facility_id, :start_date, :end_date, :profession)
+        params.require(:shift).permit(:worker_id)
       end
     end
   end

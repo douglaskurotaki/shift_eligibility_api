@@ -96,4 +96,66 @@ RSpec.describe 'api/shifts', type: :request do
       end
     end
   end
+
+  path '/api/shifts/{shift_id}/assign_worker' do
+    post 'Assign worker to shift' do
+      tags 'Shifts'
+      produces 'application/json'
+      consumes 'application/json'
+
+      parameter name: :shift_id, in: :path, type: :integer, required: true, description: 'Shift ID'
+      parameter name: :shift, in: :body, schema: {
+        type: :object,
+        properties: {
+          worker_id: { type: :integer }
+        },
+        required: ['worker_id']
+      }
+
+      let(:self_shift) { create(:shift) }
+      let(:shift_id) { self_shift.id }
+      let(:worker) { create(:worker) }
+      let(:worker_id) { worker.id }
+      let(:shift) do
+        {
+          worker_id:
+        }
+      end
+
+      response '200', 'worker assigned to shift' do
+        schema '$ref' => '#/components/schemas/shift'
+
+        let(:use_case_response) do
+          {
+            success?: true,
+            data: self_shift
+          }
+        end
+
+        before do
+          allow(AssignWorkerToShiftUseCase).to receive(:call).and_return(use_case_response)
+        end
+
+        run_test!
+      end
+
+      response '422', 'unprocessable entity' do
+        let(:worker) { create(:worker, is_active: false) }
+        let(:worker_id) { worker.id }
+
+        let(:use_case_response) do
+          {
+            success?: false,
+            error: 'Worker must be active'
+          }
+        end
+
+        before do
+          allow(AssignWorkerToShiftUseCase).to receive(:call).and_return(use_case_response)
+        end
+
+        run_test!
+      end
+    end
+  end
 end
