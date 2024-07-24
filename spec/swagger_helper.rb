@@ -31,7 +31,29 @@ RSpec.configure do |config|
             }
           }
         }
-      ]
+      ],
+      components: {
+        schemas: {
+          shift: {
+            properties: {
+              id: { type: :integer },
+              start: { type: :string },
+              end: { type: :string },
+              is_deleted: { type: :boolean },
+              profession: { type: :string },
+              facility_id: { type: :integer },
+              facility: {
+                type: :object,
+                properties: {
+                  id: { type: :integer },
+                  name: { type: :string },
+                  is_active: { type: :boolean }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 
