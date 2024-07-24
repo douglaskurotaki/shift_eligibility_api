@@ -7,7 +7,7 @@ class Worker < ApplicationRecord
   has_many :document_workers, dependent: :destroy, class_name: 'DocumentWorker'
   has_many :documents, through: :document_workers
 
-  has_many :shifts, dependent: :destroy, class_name: 'Shift'
+  has_many :shifts, dependent: :nullify, class_name: 'Shift'
 
   validates :name, :profession, presence: true
   validates :is_active, inclusion: { in: [true, false] }
